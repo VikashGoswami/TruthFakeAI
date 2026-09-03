@@ -1,6 +1,10 @@
 import os
 import logging
-from transformers import pipeline
+try:
+    from transformers import pipeline
+    HAS_AI_LIBS = True
+except ImportError:
+    HAS_AI_LIBS = False
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +26,11 @@ class AIPipeline:
         self._initialized = True
 
     def load_model(self):
+        if not HAS_AI_LIBS:
+            logger.warning("Transformers library not found. Running as lightweight API Gateway only.")
+            self.classifier = None
+            return
+            
         try:
             # Check if model exists locally by looking for the config file
             config_path = os.path.join(self.model_path, "config.json")
