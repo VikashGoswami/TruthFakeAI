@@ -22,7 +22,8 @@ async def analyze_content(payload: AnalyzeRequest):
                     is_misleading=data.get("is_misleading", True),
                     confidence_score=data.get("confidence_score", 0.0),
                     rating=data.get("rating", "Error"),
-                    platform=payload.source_platform
+                    platform=payload.source_platform,
+                    extracted_text=data.get("extracted_text", "")
                 )
                 return AnalyzeResponse(status="success", data=response_data)
             else:
@@ -41,7 +42,8 @@ async def analyze_content(payload: AnalyzeRequest):
             is_misleading=result["is_misleading"],
             confidence_score=result["confidence_score"],
             rating=result["rating"],
-            platform=payload.source_platform
+            platform=payload.source_platform,
+            extracted_text=payload.content_text
         )
         
         return AnalyzeResponse(status="success", data=response_data)

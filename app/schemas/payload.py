@@ -11,6 +11,7 @@ class AnalysisData(BaseModel):
     confidence_score: float
     rating: str
     platform: str
+    extracted_text: Optional[str] = None
 
 class AnalyzeResponse(BaseModel):
     status: str = "success"
