@@ -30,8 +30,8 @@ app.include_router(api_router, prefix=settings.API_V1_STR)
 
 @app.get("/", include_in_schema=False)
 async def root():
-    """Redirect to the API documentation."""
-    return RedirectResponse(url="/docs")
+    """Root endpoint for Render health checks."""
+    return {"status": "ok", "message": "TruthAI API Gateway is running. Visit /docs for the UI."}
 
 @app.on_event("startup")
 async def startup_event():
