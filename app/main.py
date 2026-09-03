@@ -14,6 +14,8 @@ app = FastAPI(
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
+from fastapi.responses import RedirectResponse
+
 # CORS middleware
 if settings.BACKEND_CORS_ORIGINS:
     app.add_middleware(
@@ -25,6 +27,11 @@ if settings.BACKEND_CORS_ORIGINS:
     )
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
+
+@app.get("/", include_in_schema=False)
+async def root():
+    """Redirect to the API documentation."""
+    return RedirectResponse(url="/docs")
 
 @app.on_event("startup")
 async def startup_event():
